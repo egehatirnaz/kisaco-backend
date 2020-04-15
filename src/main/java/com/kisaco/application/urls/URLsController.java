@@ -6,6 +6,7 @@ import com.kisaco.application.util.Randomizer;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller // This means that this class is a Controller
-@RequestMapping(path = "/urls")
+@BasePathAwareController // This means that this class is a Controller
+@RequestMapping(path = "/api/urls")
 public class URLsController {
     @Autowired
     private URLsRepository urLsRepository;
