@@ -1,10 +1,10 @@
-package com.kisaco.application.user;
+package com.kisaco.application.users;
 import javax.persistence.*;
 
 
 @Entity
-@Table(name = "User")
-public class User {
+@Table(name = "Users")
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -13,9 +13,9 @@ public class User {
     private String name;
     private long createdAt;
 
-    public User(){}
+    public Users(){}
 
-    public User(String email, String password, String name, int createdAt) {
+    public Users(String email, String password, String name, int createdAt) {
         this.email = email;
         this.password = password;
         this.name = name;

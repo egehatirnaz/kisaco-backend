@@ -1,6 +1,6 @@
-package com.kisaco.application.request;
+package com.kisaco.application.requests;
 
-public class Request {
+public class Requests {
     private final long id;
     private final long urlID;
     private String requestIP;
@@ -8,7 +8,7 @@ public class Request {
     private int requestReferrer;
     private final int createdAt;
 
-    public Request(long id, long urlID, String requestIP, String countryCode, int requestReferrer, int createdAt) {
+    public Requests(long id, long urlID, String requestIP, String countryCode, int requestReferrer, int createdAt) {
         this.id = id;
         this.urlID = urlID;
         this.requestIP = requestIP;

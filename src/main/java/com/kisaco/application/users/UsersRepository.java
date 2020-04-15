@@ -1,4 +1,4 @@
-package com.kisaco.application.user;
+package com.kisaco.application.users;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 // CRUD refers Create, Read, Update, Delete
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
-
+public interface UsersRepository extends CrudRepository<Users, Integer> {
+    public Users findByEmail(String email);
 }
