@@ -6,7 +6,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,12 +22,6 @@ public class UsersController {
     String addNewUser(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
 
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
-        /*
-        if (BCrypt.checkpw(candidate, hashed))
-            System.out.println("It matches");
-        else
-	        System.out.println("It does not match");
-         */
         Users n = new Users();
         n.setName(name);
         n.setEmail(email);
@@ -59,7 +52,6 @@ public class UsersController {
                     throw new ResponseStatusException(
                             HttpStatus.INTERNAL_SERVER_ERROR, "Encountered a problem.");
                 }
-
             } else
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, "Invalid password.");
@@ -71,10 +63,5 @@ public class UsersController {
     Iterable<Users> getAllUsers() {
         // This returns a JSON or XML with the users
         return usersRepository.findAll();
-    }
-
-    @GetMapping("/")
-    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return String.format("Sup %s!", name);
     }
 }

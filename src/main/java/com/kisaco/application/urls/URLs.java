@@ -1,19 +1,34 @@
 package com.kisaco.application.urls;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "URLs")
 public class URLs {
-    private final long id;
-    private final long userID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(name = "user_id")
+    private Integer userID;
+    @Column(name = "orig_url")
     private String origURL;
+    @Column(name = "short_url")
     private String shortURL;
-    private final int createdAt;
-    private int expiresAt = 0;
+    @Column(name = "created_at")
+    private long createdAt;
+    @Column(name = "expires_at")
+    private long expiresAt = 0;
+    @Column(name = "creator_ip")
     private String creatorIP;
+    @Column(name = "visitor_count")
     private int visitorCount;
+    @Column(name = "visitor_limit")
     private int visitorLimit = 0;
+    @Column(name = "is_private")
     private Boolean isPrivate = false;
 
-    public URLs(long id, long userID, String origURL, String shortURL, int createdAt, int expiresAt, String creatorIP, int visitorCount, int visitorLimit, Boolean isPrivate) {
-        this.id = id;
+    public URLs(){}
+    public URLs(Integer userID, String origURL, String shortURL, int createdAt, int expiresAt, String creatorIP, int visitorCount, int visitorLimit, Boolean isPrivate) {
         this.userID = userID;
         this.origURL = origURL;
         this.shortURL = shortURL;
@@ -25,13 +40,15 @@ public class URLs {
         this.isPrivate = isPrivate;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public long getUserID() {
+    public Integer getUserID() {
         return userID;
     }
+
+    public void setUserID(Integer userID) { this.userID = userID; }
 
     public String getOrigURL() {
         return origURL;
@@ -49,15 +66,17 @@ public class URLs {
         this.shortURL = shortURL;
     }
 
-    public int getCreatedAt() {
+    public long getCreatedAt() {
         return createdAt;
     }
 
-    public int getExpiresAt() {
+    public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
+
+    public long getExpiresAt() {
         return expiresAt;
     }
 
-    public void setExpiresAt(int expiresAt) {
+    public void setExpiresAt(long expiresAt) {
         this.expiresAt = expiresAt;
     }
 
