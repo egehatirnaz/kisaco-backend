@@ -1,14 +1,28 @@
 package com.kisaco.application.requests;
 
-public class Requests {
-    private final long id;
-    private final long urlID;
-    private String requestIP;
-    private String countryCode;
-    private int requestReferrer;
-    private final int createdAt;
+import javax.persistence.*;
 
-    public Requests(long id, long urlID, String requestIP, String countryCode, int requestReferrer, int createdAt) {
+@Entity
+@Table(name = "Url_Requests")
+public class Requests {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "url_id")
+    private Integer urlID;
+    @Column(name = "request_ip")
+    private String requestIP;
+    @Column(name = "country_code")
+    private String countryCode;
+    @Column(name = "request_referrer")
+    private int requestReferrer;
+    @Column(name = "created_at")
+    private int createdAt;
+
+    public Requests(){}
+
+    public Requests(Integer id, Integer urlID, String requestIP, String countryCode, int requestReferrer, int createdAt) {
         this.id = id;
         this.urlID = urlID;
         this.requestIP = requestIP;
@@ -17,12 +31,16 @@ public class Requests {
         this.createdAt = createdAt;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public long getUrlID() {
+    public Integer getUrlID() {
         return urlID;
+    }
+
+    public void setUrlID(Integer urlID){
+        this.urlID = urlID;
     }
 
     public String getRequestIP() {
@@ -51,6 +69,10 @@ public class Requests {
 
     public int getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(int createdAt){
+        this.createdAt = createdAt;
     }
 
     @Override
