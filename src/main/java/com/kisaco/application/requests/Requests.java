@@ -16,13 +16,13 @@ public class Requests {
     @Column(name = "country_code")
     private String countryCode;
     @Column(name = "request_referrer")
-    private int requestReferrer;
+    private String requestReferrer;
     @Column(name = "created_at")
-    private int createdAt;
+    private long createdAt;
 
     public Requests(){}
 
-    public Requests(Integer id, Integer urlID, String requestIP, String countryCode, int requestReferrer, int createdAt) {
+    public Requests(Integer id, Integer urlID, String requestIP, String countryCode, String requestReferrer, int createdAt) {
         this.id = id;
         this.urlID = urlID;
         this.requestIP = requestIP;
@@ -59,19 +59,19 @@ public class Requests {
         this.countryCode = countryCode;
     }
 
-    public int getRequestReferrer() {
+    public String getRequestReferrer() {
         return requestReferrer;
     }
 
-    public void setRequestReferrer(int requestReferrer) {
+    public void setRequestReferrer(String requestReferrer) {
         this.requestReferrer = requestReferrer;
     }
 
-    public int getCreatedAt() {
+    public long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(int createdAt){
+    public void setCreatedAt(long createdAt){
         this.createdAt = createdAt;
     }
 
