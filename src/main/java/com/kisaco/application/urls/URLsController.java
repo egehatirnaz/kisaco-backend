@@ -24,15 +24,18 @@ public class URLsController {
     public @ResponseBody
     String addNewURL(
             @RequestParam Integer user_id, @RequestParam String orig_url, @RequestParam String short_url,
-            @RequestParam long expires_at, @RequestParam int visitor_limit, @RequestParam boolean is_private, HttpServletRequest request) {
+            @RequestParam long expires_at, @RequestParam int visitor_limit, @RequestParam int private_mode, HttpServletRequest request) {
         URLs new_url = new URLs();
         new_url.setUserID(user_id);
         new_url.setOrigURL(orig_url);
         new_url.setCreatorIP(request.getRemoteAddr());
+        boolean is_private = false;
+        if(private_mode == 1)
+            is_private = true;
 
         // If no custom URL is provided and mode is public, generate random short URL.
         if (is_private){
-            if (short_url != null)
+            if (!short_url.equals(""))
                 throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "You cannot choose short url for private URLs.");
             else {
@@ -40,7 +43,7 @@ public class URLsController {
                 new_url.setShortURL(short_url);
             }
         } else {
-            if (short_url != null){
+            if (!short_url.equals("")){
                 if (short_url.trim().equals("")){
                     short_url = generateURL(5);
                     new_url.setShortURL(short_url);
@@ -49,6 +52,7 @@ public class URLsController {
                         throw new ResponseStatusException(
                                 HttpStatus.BAD_REQUEST, "This URL is already taken.");
                     }
+                    new_url.setShortURL(short_url);
                 }
             } else {
                 short_url = generateURL(5);
