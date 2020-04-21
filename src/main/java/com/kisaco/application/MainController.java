@@ -63,7 +63,7 @@ public class MainController {
                     } else {
                         if (result.getVisitorLimit() > result.getVisitorCount()) {
                             String orig_url = result.getOrigURL();
-                            if (!orig_url.startsWith("http://") || !orig_url.startsWith("https://"))
+                            if (!orig_url.startsWith("http://") && !orig_url.startsWith("https://"))
                                 orig_url = "http://" + orig_url;
 
                             // Increment view count.
