@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RequestsRepository extends CrudRepository<Requests, Integer> {
-
+    public Iterable<Requests> findAllByUrlID(Integer UrlID);
 }

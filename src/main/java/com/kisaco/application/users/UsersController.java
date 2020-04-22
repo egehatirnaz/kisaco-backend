@@ -20,7 +20,7 @@ public class UsersController {
 
     @PostMapping(path = "/signup") // Map ONLY POST Requests
     public @ResponseBody
-    String addNewUser(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
+    Users addNewUser(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
 
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
         Users n = new Users();
@@ -34,12 +34,12 @@ public class UsersController {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Could not signed up.");
         }
-        return n.getId().toString();
+        return n;
     }
 
     @PostMapping(path = "/login") // Map ONLY POST Requests
     public @ResponseBody
-    String loginUser(@RequestParam String email, @RequestParam String password) {
+    Users loginUser(@RequestParam String email, @RequestParam String password) {
         Users n = usersRepository.findByEmail(email);
         ObjectMapper mapper = new ObjectMapper();
         if (n == null) {
@@ -47,12 +47,7 @@ public class UsersController {
                     HttpStatus.NOT_FOUND, "User not found.");
         } else {
             if (BCrypt.checkpw(password, n.getPassword())) {
-                try {
-                    return mapper.writeValueAsString(n);
-                } catch (JsonProcessingException e) {
-                    throw new ResponseStatusException(
-                            HttpStatus.INTERNAL_SERVER_ERROR, "Encountered a problem.");
-                }
+                return n;
             } else
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, "Invalid password.");

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface URLsRepository extends CrudRepository<URLs, Integer> {
     public URLs findByShortURL(String short_url);
+    public Iterable<URLs> findAllByUserID(Integer user_id);
 }

@@ -22,7 +22,7 @@ public class URLsController {
 
     @PostMapping(path = "/create") // Map ONLY POST Requests
     public @ResponseBody
-    String addNewURL(
+    URLs addNewURL(
             @RequestParam Integer user_id, @RequestParam String orig_url, @RequestParam String short_url,
             @RequestParam long expires_at, @RequestParam int visitor_limit, @RequestParam int private_mode, HttpServletRequest request) {
         URLs new_url = new URLs();
@@ -78,13 +78,8 @@ public class URLsController {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Could not register this URL.");
         }
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(new_url);
-        } catch (JsonProcessingException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Encountered a problem.");
-        }
+
+        return new_url;
     }
 
     private String generateURL(int len) {
