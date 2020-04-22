@@ -1,14 +1,10 @@
 package com.kisaco.application.urls;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kisaco.application.util.Randomizer;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -75,7 +71,7 @@ public class URLsController {
         new_url.setCreatedAt(System.currentTimeMillis() / 1000L);
 
         if (expires_at == 0 || unauthorized){
-            new_url.setExpiresAt((System.currentTimeMillis() + 86400000) / 1000L); // 24 hours from now on.
+            new_url.setExpiresAt((System.currentTimeMillis()/ 1000L) + 86400); // 24 hours from now on.
         } else {
             new_url.setExpiresAt(expires_at);
         }
