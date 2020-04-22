@@ -25,12 +25,24 @@ public class URLsController {
     URLs addNewURL(
             @RequestParam Integer user_id, @RequestParam String orig_url, @RequestParam String short_url,
             @RequestParam long expires_at, @RequestParam int visitor_limit, @RequestParam int private_mode, HttpServletRequest request) {
+
+        boolean unauthorized = true;
+        if (user_id != null && user_id > 0)
+            unauthorized = false;
+
+        if (orig_url.equals("") || orig_url.trim().equals("")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Original URL cannot be empty.");
+        }
+
         URLs new_url = new URLs();
-        new_url.setUserID(user_id);
+        if(!unauthorized)
+            new_url.setUserID(user_id);
+        else
+            new_url.setUserID(null);
         new_url.setOrigURL(orig_url);
         new_url.setCreatorIP(request.getRemoteAddr());
         boolean is_private = false;
-        if(private_mode == 1)
+        if(private_mode == 1 && !unauthorized)
             is_private = true;
 
         // If no custom URL is provided and mode is public, generate random short URL.
@@ -43,7 +55,7 @@ public class URLsController {
                 new_url.setShortURL(short_url);
             }
         } else {
-            if (!short_url.equals("")){
+            if (!short_url.equals("") && !unauthorized){
                 if (short_url.trim().equals("")){
                     short_url = generateURL(5);
                     new_url.setShortURL(short_url);
@@ -62,14 +74,17 @@ public class URLsController {
 
         new_url.setCreatedAt(System.currentTimeMillis() / 1000L);
 
-        if (expires_at == 0){
-            new_url.setExpiresAt((System.currentTimeMillis() + 600000) / 1000L); // 10 minutes from now on.
+        if (expires_at == 0 || unauthorized){
+            new_url.setExpiresAt((System.currentTimeMillis() + 86400000) / 1000L); // 24 hours from now on.
         } else {
             new_url.setExpiresAt(expires_at);
         }
 
         new_url.setVisitorCount(0);
-        new_url.setVisitorLimit(visitor_limit);
+        if(!unauthorized)
+            new_url.setVisitorLimit(visitor_limit);
+        else
+            new_url.setVisitorLimit(0);
         new_url.setPrivate(is_private);
 
         try {
@@ -81,6 +96,7 @@ public class URLsController {
 
         return new_url;
     }
+
 
     private String generateURL(int len) {
         String short_url = Randomizer.generateRandomString(len);
