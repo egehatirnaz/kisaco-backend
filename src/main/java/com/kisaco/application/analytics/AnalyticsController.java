@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 @BasePathAwareController // This means that this class is a Controller
 @RequestMapping(path = "/api/analytics")
@@ -44,5 +46,49 @@ public class AnalyticsController {
 
         return analyticsList;
 
+    }
+
+    @GetMapping(path = "/monthly/{url_id}")
+    public @ResponseBody
+    MonthlyAnalytic getMonthlyURL(@PathVariable("url_id") Integer url_id){
+        MonthlyAnalytic monthly = new MonthlyAnalytic();
+
+        URLs url = urLsRepository.findById(url_id).orElse(null);
+        if(url == null)
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Could not find this URL.");
+
+        Calendar creationDate = Calendar.getInstance();
+        creationDate.setTimeInMillis(url.getCreatedAt()*1000);
+        int creationYear = creationDate.get(Calendar.YEAR);
+
+        Iterable<Requests> requests = requestsRepository.findAllByUrlID(url.getId());
+        Calendar requestDate = Calendar.getInstance();
+        for(Requests req: requests){
+            requestDate.setTimeInMillis(req.getCreatedAt()*1000);
+            int reqYear = requestDate.get(Calendar.YEAR);
+            if ( creationYear == reqYear){
+                monthly.addMonth(requestDate.get(Calendar.MONTH));
+            }
+        }
+        return monthly;
+    }
+
+    @GetMapping(path = "/visitors/{url_id}")
+    public @ResponseBody
+    List<Object> getVisitorsURL(@PathVariable("url_id") Integer url_id) {
+        URLs url = urLsRepository.findById(url_id).orElse(null);
+        if (url == null)
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Could not find this URL.");
+        List<Object> result = new ArrayList <Object>();
+        Iterable<Requests> requests = requestsRepository.findAllByUrlID(url.getId());
+        for(Requests req: requests){
+            List<Object> detail = new ArrayList <Object>();
+            detail.add(req.getRequestIP());
+            detail.add(req.getCountryCode());
+            result.add(detail);
+        }
+        return result;
     }
 }
