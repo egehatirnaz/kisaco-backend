@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 
 @BasePathAwareController // This means that this class is a Controller
+@RestController
 @RequestMapping(path = "/api/urls")
 public class URLsController {
     @Autowired

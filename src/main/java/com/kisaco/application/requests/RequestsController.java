@@ -23,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Objects;
 
 @BasePathAwareController // This means that this class is a Controller
+@RestController
 @RequestMapping(path = "/api/requests")
 public class RequestsController {
     @Autowired

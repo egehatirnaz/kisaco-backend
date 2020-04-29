@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @BasePathAwareController // This means that this class is a Controller
+@RestController
 @RequestMapping(path = "/api/users") // This means URL's start with /user (after Application path)
 public class UsersController {
     @Autowired // This means to get the bean called userRepository
